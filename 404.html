@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Ghostbin</title>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="title" content="Ghostbin">
+	<meta name="description" content="Ghostbin is a modern paste service that provides a secure and user-friendly platform for sharing and storing text snippets. Ghostbin supports encryption, expiration dates for pastes, and a vast array of programming languages.">
+	<meta name="keywords" content="ghostbin,pastebin,textpaste,storage,temptext,anonymous">
+	<meta name="robots" content="index, follow">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="language" content="English">
+
+	<link rel="icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" href="/ghostbin-icon120.png" sizes="120x120">
+	<link rel="apple-touch-icon" href="/ghostbin-icon152.png" sizes="152x152">
+	<link rel="apple-touch-icon" href="/ghostbin-icon76.png" sizes="76x76">
+	<link rel="apple-touch-icon" href="/ghostbin-icon72.png" sizes="72x72">
+
+	<link rel="stylesheet" href="/css/fontello.css">
+	<link rel="stylesheet" href="/css/fonts.css">
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/select2.css">
+	<link rel="stylesheet" href="/css/select2-bootstrap.css">
+	<link rel="stylesheet/less" href="/css/master.less">
+	<script src="/js/less.js"></script>
+	<link rel="stylesheet" href="/css/theme-pygments.css">
+	<link rel="stylesheet" href="/css/theme-ansi.css">
+
+	<script src="/js/jquery-2.0.3.js"></script>
+	<script src="/js/select2.js"></script>
+	<script src="/js/ghostbin.jQuery.js"></script>
+	<script src="/js/bootstrap.js"></script>
+	<script src="/js/mozcookies.js"></script>
+	<script src="/js/application.js"></script>
+</head>
+
+<body>
+
+<div class="flash-container" id="flash-container">
+	<div class="well" id="flash-template">
+		<p></p>
+	</div>
+</div>
+
+<form id="pasteForm" action="/paste/new" method="post" data-context="new">
+<div class="sizefix clearfix">
+<div class="paste-toolbox">
+	<a title="Home" href="/" id="home" class="btn btn-inverse">
+		<i class="icon-home icon-large"></i>
+	</a>
+
+	<span class="paste-title" style="cursor: pointer;">
+		<strong id="editable-paste-title" data-placeholder="New Paste" contenteditable></strong>
+	</span>
+
+	<div class="paste-toolbox-buttons pull-right" id="desktop-paste-control-container"></div>
+</div>
+
+<div class="code code-line-numbers unselectable" id="line-numbers" aria-hidden="true"></div>
+
+<div class="textarea-height-wrapper">
+	<textarea id="code-editor" autofocus tabindex="1" class="code" name="text" rows="20" wrap="off"></textarea>
+</div>
+</div>
+
+<div class="well visible-phone" id="phone-paste-control-container"></div>
+
+<input type="hidden" name="expire" value="-1">
+<input type="hidden" name="password" value="">
+<input type="hidden" name="title" value="">
+
+<div id="expireModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+</form>
+
+<!-- ===================== -->
+<!-- AUTO SAVE LOGIC START -->
+<!-- ===================== -->
+<script>
+(function () {
+	const TEXT_KEY = 'ghostbin_autosave_text';
+	const TITLE_KEY = 'ghostbin_autosave_title';
+
+	const editor = document.getElementById('code-editor');
+	const title = document.getElementById('editable-paste-title');
+
+	// Load saved data on page load
+	if (localStorage.getItem(TEXT_KEY)) {
+		editor.value = localStorage.getItem(TEXT_KEY);
+	}
+
+	if (localStorage.getItem(TITLE_KEY)) {
+		title.innerText = localStorage.getItem(TITLE_KEY);
+	}
+
+	// Auto-save textarea content
+	editor.addEventListener('input', function () {
+		localStorage.setItem(TEXT_KEY, editor.value);
+	});
+
+	// Auto-save title
+	title.addEventListener('input', function () {
+		localStorage.setItem(TITLE_KEY, title.innerText);
+	});
+})();
+</script>
+<!-- =================== -->
+<!-- AUTO SAVE LOGIC END -->
+<!-- =================== -->
+
+</body>
+</html>
